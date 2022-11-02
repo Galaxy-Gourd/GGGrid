@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DAT_Operator_TestUIScalableGrid
   m_EditorClassIdentifier: GG.Operators:GG.Operators:DataConfigOperatorPlayer
   ActiveOnCreation: 1
-  OperatorPrefab: {fileID: 7142764629143716364, guid: 76c38abcfb48c4c1887ee00ddba72d43,
+  OperatorPrefab: {fileID: 7142764629143716364, guid: d0cec02a41b7347f3920e60a65fa5e58,
     type: 3}
-  AutoEnablePointer: 0
+  AutoEnablePointer: 1
