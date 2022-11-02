@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8d27418fc24dc1a47fdba856f8ad32, type: 3}
+  m_Name: DAT_UIScalableGrid
+  m_EditorClassIdentifier: 
+  GridWidth: 15
+  GridHeight: 8
+  GridCellSize: 37.6
+  PrefabCellView: {fileID: 1926765881132680702, guid: d3f6cb20fd25e4ee7ac8da51f9f18e98,
+    type: 3}
+  InputType: 0
+  CellSpacing: 6.36
+  BorderSpacing: 5
+  CellAreaInputNormalizedSize: 1

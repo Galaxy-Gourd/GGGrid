@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2eb5ea037a4f9483d4a282f07b5fdd, type: 3}
+  m_Name: DAT_Operator_TestUIScalableGrid
+  m_EditorClassIdentifier: GG.Operators:GG.Operators:DataConfigOperatorPlayer
+  ActiveOnCreation: 1
+  OperatorPrefab: {fileID: 7142764629143716364, guid: 76c38abcfb48c4c1887ee00ddba72d43,
+    type: 3}
+  AutoEnablePointer: 0
