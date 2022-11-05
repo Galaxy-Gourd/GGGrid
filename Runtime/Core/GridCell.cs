@@ -85,7 +85,7 @@ namespace GG.Grid
         
         #region UTILITY
         
-        public virtual bool IsAStarNavigable()
+        public virtual bool IsAStarNavigable(string requestTag)
         {
             return true;
         }

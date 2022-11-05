@@ -8,7 +8,7 @@ namespace GG.Grid
         /// Returns false if this cell should not be used in calculating AStar paths
         /// </summary>
         /// <returns></returns>
-        bool IsAStarNavigable();
+        bool IsAStarNavigable(string requestTag);
 
         #endregion METHODS
     }

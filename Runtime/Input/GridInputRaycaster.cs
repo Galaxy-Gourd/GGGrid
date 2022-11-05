@@ -27,7 +27,10 @@ namespace GG.Grid
         internal void Init(GridInputGameObjects input)
         {
             _input = input;
-            _input.Operator.Pointer.RegisterReceiver(this);
+            if (_input.Operator.Pointer)
+            {
+                _input.Operator.Pointer.RegisterReceiver(this);
+            }
         }
 
         private void OnEnable()
@@ -38,7 +41,10 @@ namespace GG.Grid
         private void OnDisable()
         {
             TickRouter.Unregister(this);
-            _input.Operator.Pointer.UnregisterReceiver(this);
+            if (_input.Operator.Pointer)
+            {
+                _input.Operator.Pointer.UnregisterReceiver(this);
+            }
         }
 
         #endregion INITIALIZATION

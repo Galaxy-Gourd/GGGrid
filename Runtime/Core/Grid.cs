@@ -68,32 +68,14 @@ namespace GG.Grid
         public int[] GetGridCellNeighborIndices(int sourceIndex)
         {
             int[] neighbors = new int[8];
-            Vector2Int coords = GetCoordsForFlattenedIndex(sourceIndex);
-            
-            // Top-left
-            neighbors[0] = coords.x == 0 || coords.y == _height - 1 ? -1 : sourceIndex + (_width - 1);
-            
-            // Top
-            neighbors[1] = coords.y == _height - 1 ? -1 : sourceIndex + _width;
-            
-            // Top-right
-            neighbors[2] = coords.y == _height - 1 || coords.x == _width - 1 ? -1 : sourceIndex + (_width + 1);
-            
-            // Right
-            neighbors[3] = coords.x == _width - 1 ? -1 : sourceIndex + 1;
-            
-            // Bottom-right
-            neighbors[4] = coords.x == _width - 1 || coords.y == 0 ? -1 : sourceIndex - (_width + 1);
-            
-            // Bottom
-            neighbors[5] = coords.y == 0 ? -1 : sourceIndex - _width;
-            
-            // Bottom-left
-            neighbors[6] = coords.x == 0 || coords.y == 0 ? -1 : sourceIndex - (_width - 1);
-            
-            // Left
-            neighbors[7] = coords.x == 0 ? -1 : sourceIndex - 1;
-
+            neighbors[0] = GetIndexOfCellInDirection(sourceIndex, GridDirection.TopLeft);
+            neighbors[1] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Top);
+            neighbors[2] = GetIndexOfCellInDirection(sourceIndex, GridDirection.TopRight);
+            neighbors[3] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Right);
+            neighbors[4] = GetIndexOfCellInDirection(sourceIndex, GridDirection.BottomRight);
+            neighbors[5] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Bottom);
+            neighbors[6] = GetIndexOfCellInDirection(sourceIndex, GridDirection.BottomLeft);
+            neighbors[7] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Left);
             return neighbors;
         }
 
@@ -111,21 +93,29 @@ namespace GG.Grid
         public int[] GetGridCellCardinalNeighborIndices(int sourceIndex)
         {
             int[] neighbors = new int[4];
-            Vector2Int coords = GetCoordsForFlattenedIndex(sourceIndex);
-            
-            // Top
-            neighbors[0] = coords.y == _height - 1 ? -1 : sourceIndex + _width;
-            
-            // Right
-            neighbors[1] = coords.x == _width - 1 ? -1 : sourceIndex + 1;
-            
-            // Bottom
-            neighbors[2] = coords.y == 0 ? -1 : sourceIndex - _width;
-            
-            // Left
-            neighbors[3] = coords.x == 0 ? -1 : sourceIndex - 1;
-
+            neighbors[0] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Top);
+            neighbors[1] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Right);
+            neighbors[2] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Bottom);
+            neighbors[3] = GetIndexOfCellInDirection(sourceIndex, GridDirection.Left);
             return neighbors;
+        }
+
+        public int GetIndexOfCellInDirection(int sourceIndex, GridDirection direction)
+        {
+            Vector2Int coords = GetCoordsForFlattenedIndex(sourceIndex);
+            switch (direction)
+            {
+                case GridDirection.TopLeft: return coords.x == 0 || coords.y == _height - 1 ? -1 : sourceIndex + _width - 1;
+                case GridDirection.Top: return coords.y == _height - 1 ? -1 : sourceIndex + _width;
+                case GridDirection.TopRight: return coords.y == _height - 1 || coords.x == _width - 1 ? -1 : sourceIndex + _width + 1;
+                case GridDirection.Right: return coords.x == _width - 1 ? -1 : sourceIndex + 1;
+                case GridDirection.BottomRight: return coords.x == _width - 1 || coords.y == 0 ? -1 : sourceIndex - _width + 1;
+                case GridDirection.Bottom: return coords.y == 0 ? -1 : sourceIndex - _width;
+                case GridDirection.BottomLeft: return coords.x == 0 || coords.y == 0 ? -1 : sourceIndex - _width - 1;
+                case GridDirection.Left: return coords.x == 0 ? -1 : sourceIndex - 1;
+            }
+
+            return -1;
         }
 
         /// <summary>

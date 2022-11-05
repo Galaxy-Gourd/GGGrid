@@ -65,7 +65,7 @@ namespace GG.Grid
                     Cell = _request.View.BaseCellAtIndex(i),
                     FromNode = null,
                     GCost = int.MaxValue,
-                    HCost = 0
+                    HCost = _request.Source.IsAStarNavigable(_request.RequestTag) ? 0 : int.MaxValue
                 });
             }
             
@@ -97,7 +97,7 @@ namespace GG.Grid
                 foreach (int neighbor in _request.Grid.GetGridCellNeighborIndices(currentNode.Cell.Index))
                 {
                     // Skip out of bounds and impassible cells
-                    if (neighbor == -1 || !_request.View.BaseCellAtIndex(neighbor).IsAStarNavigable())
+                    if (neighbor == -1 || !_request.View.BaseCellAtIndex(neighbor).IsAStarNavigable(_request.RequestTag))
                         continue;
 
                     DataGridAStarNode neighborNode = GetNodeDataForCell(_request.View.BaseCellAtIndex(neighbor));

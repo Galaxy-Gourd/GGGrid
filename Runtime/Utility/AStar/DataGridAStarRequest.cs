@@ -8,5 +8,6 @@ namespace GG.Grid
         public IGridView View;
         public IGridCellAStarNavigable Source;
         public IGridCellAStarNavigable Destination;
+        public string RequestTag;
     }
 }
