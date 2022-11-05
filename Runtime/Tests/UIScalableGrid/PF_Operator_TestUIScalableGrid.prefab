@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1345961905059657475}
   - component: {fileID: -6401511483864574023}
   m_Layer: 0
-  m_Name: PF_Operator_TestUIScalableGridd
+  m_Name: PF_Operator_TestUIScalableGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
