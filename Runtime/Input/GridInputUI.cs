@@ -77,7 +77,7 @@ namespace GG.Grid
 
         #region POINTER
 
-        private Tuple<UIScalableGridCell, float> GetCellClosestToPosition(Vector2 targetPosition, bool useRelativePosition = true)
+        public Tuple<UIScalableGridCell, float> GetCellClosestToPosition(Vector2 targetPosition, bool useRelativePosition = true)
         {
             float closestDist = float.MaxValue;
             UIScalableGridCell closestCell = _grid.CellAtIndex(0);
