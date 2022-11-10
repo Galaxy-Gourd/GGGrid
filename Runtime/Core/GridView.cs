@@ -14,7 +14,6 @@ namespace GG.Grid
 
         public Grid Grid => _grid;
         public int CellCount => _cellViews.Length;
-        public Vector3 Center => new Vector3(_config.GridCellSize * _grid.GridWidth, 0, _config.GridCellSize * _grid.GridHeight) / 2;
         public GridCell BaseCellAtIndex(int index) => _cellViews[index];
         public TCell CellAtIndex(int index) => _cellViews[index];
         public TCell CellAtCoords(int x, int y) => _cellViews[_grid.GetFlattenedIndexForCoords(x, y)];
@@ -78,8 +77,7 @@ namespace GG.Grid
         /// </summary>
         protected virtual TCell InstantiateCell(int xCoord, int yCoord)
         {
-            Vector3 cellPosition = new Vector3(xCoord * _config.GridCellSize, 0, yCoord * _config.GridCellSize);
-            return Instantiate(_config.PrefabCellView, cellPosition, Quaternion.identity).GetComponent<TCell>();
+            return Instantiate(_config.PrefabCellView, Vector3.zero, Quaternion.identity).GetComponent<TCell>();
         }
 
         /// <summary>

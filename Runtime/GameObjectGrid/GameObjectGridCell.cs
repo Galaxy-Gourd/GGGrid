@@ -6,7 +6,7 @@ namespace GG.Grid
     {
         #region VARIABLES
 
-        internal Transform Transform => transform;
+        public Transform Transform => transform;
         
         #endregion VARIABLES
     }

@@ -19,7 +19,7 @@ namespace GG.Grid
         [SerializeField] public int GridHeight;
         
         [Header("View")]
-        [SerializeField] public float GridCellSize;
+        
         [SerializeField] public GameObject PrefabCellView;
  
         #endregion PROPERTIES
