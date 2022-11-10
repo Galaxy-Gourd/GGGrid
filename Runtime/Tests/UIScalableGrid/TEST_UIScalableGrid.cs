@@ -20,12 +20,6 @@ namespace GG.Grid
         private UIScalableGrid _grid;
         private Color _cellColor;
 
-        private GridCell _source;
-        private GridCell _arc1;
-        private GridCell _arc2;
-        private GridCell _destniation;
-        private int _step;
-
         #endregion VARIABLES
         
         
@@ -116,42 +110,8 @@ namespace GG.Grid
         private void OnCellPointerSelect(GridCell cell)
         {
             cell.GetComponent<Image>().color = Color.yellow;
-            
-            switch (_step)
-            {
-                case 0: _source = cell;_step++; break;
-                case 1: _arc1 = cell;_step++; break;
-                case 2: _arc2 = cell;_step++; break;
-                case 3: _destniation = cell;
-                    Curve(); _step++; break;
-                default: _step = 0; 
-                    _source.GetComponent<Image>().color = _cellColor;
-                    _arc1.GetComponent<Image>().color = _cellColor;
-                    _arc2.GetComponent<Image>().color = _cellColor;
-                    _destniation.GetComponent<Image>().color = _cellColor;
-                    break;
-            }
-            
         }
 
-        private void Curve()
-        {
-            DataGridCurvedPathResult result = GridCurvedPath.CurvedPath(new DataGridCurvedPathRequest()
-            {
-                View = _grid,
-                Source = _source,
-                Arc1 = _arc1,
-                Arc2 = _arc2,
-                Destination = _destniation,
-                PathResolution = 20
-            });
-
-            foreach (GridCell cell in result.Path)
-            {
-                cell.GetComponent<Image>().color = Color.cyan;
-            }
-        }
-        
         private void OnCellPointerSelectRelease(GridCell cell)
         {
             cell.GetComponent<Image>().color = Color.green;
