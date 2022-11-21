@@ -128,7 +128,7 @@ namespace GG.Grid
         public Dictionary<int, int[]> GetGridCellNeighborsInRange(int sourceIndex, int range, bool includeDiagonals)
         {
             Dictionary<int, int[]> cellMap = new Dictionary<int, int[]>();
-            List<int> activeCells = new List<int>(sourceIndex);
+            List<int> activeCells = new List<int>(){sourceIndex};
             List<int> checkedCells = new List<int>();
             int layersCalcd = 0;
 
@@ -172,6 +172,18 @@ namespace GG.Grid
             }
 
             return cellMap;
+        }
+
+        public List<int> GetGridCellNeighborsInRangeFlattened(int sourceIndex, int range, bool includeDiagonals)
+        {
+            List<int> flattened = new List<int>();
+            Dictionary<int, int[]> results = GetGridCellNeighborsInRange(sourceIndex, range, includeDiagonals);
+            foreach (KeyValuePair<int, int[]> result in results)
+            {
+                flattened.AddRange(result.Value);
+            }
+
+            return flattened;
         }
 
         /// <summary>

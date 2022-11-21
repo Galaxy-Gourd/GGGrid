@@ -5,7 +5,7 @@ namespace GG.Grid
     public struct DataInputValuesGrid
     {
         public GridCell ActiveCell;
-        public Vector2 GridPointerPosition;
+        public Vector3 GridPointerPosition;
         
         public bool WasPressedThisFrame;
         public bool WasAlternatePressedThisFrame;

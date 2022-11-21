@@ -14,6 +14,7 @@ namespace GG.Grid
         public TickGroup TickGroup => TickGroup.InputTransmission;
         internal OperatorPlayer Operator { get; private set; }
         internal IGameObjectGrid Grid { get; private set; }
+        public Vector3 RayHitPosition => _raycaster.InputValues.GridPointerPosition;
 
         private readonly LayerMask _cellLayer;
         private readonly float _raycastDistance;
@@ -29,9 +30,9 @@ namespace GG.Grid
             Grid = GetComponent<IGameObjectGrid>();
         }
 
-        public override void Init(int operatorIndex = 0)
+        public override void Init(int operatorIndex = 0, bool inputActiveAtStart = true)
         {
-            base.Init(operatorIndex);
+            base.Init(operatorIndex, inputActiveAtStart);
 
             Operator = Modules.Get<ModuleOperators>().GetOperator(operatorIndex) as OperatorPlayer;
             _raycaster = GetComponent<GridInputRaycaster>();
@@ -57,7 +58,7 @@ namespace GG.Grid
 
         void ITickable.Tick(float delta)
         {
-            if (!_raycaster)
+            if (!_raycaster || !_inputEnabled)
                 return;
             
             OnGridInput(_raycaster.InputValues);

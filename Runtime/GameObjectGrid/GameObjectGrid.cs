@@ -51,13 +51,14 @@ namespace GG.Grid
 
         #region UTILITY
 
-        public TGridCell GetEncapsulatingCell(Vector2 point)
+        public TGridCell GetEncapsulatingCell(Vector2 point, float radius)
         {
             TGridCell eCell = _cellViews[0];
             foreach (TGridCell cell in _cellViews)
             {
                 Vector2 ps = new Vector2(cell.Transform.position.x, cell.Transform.position.z);
-                if (Vector2.Distance(ps, point) < _cellDiagonal)
+                float distance = Vector2.Distance(ps, point);
+                if (distance < _cellDiagonal + radius)
                 {
                     eCell = cell;
                     break;
