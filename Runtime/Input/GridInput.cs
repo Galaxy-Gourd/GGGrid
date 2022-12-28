@@ -14,18 +14,34 @@ namespace GG.Grid
         
         protected GridCell _pointerCell;
         protected int _operatorIndex;
+        protected bool _inputEnabled;
 
         #endregion VARIABLES
 
 
         #region INITIALIZATION
 
-        public virtual void Init(int operatorIndex = 0)
+        public virtual void Init(int operatorIndex = 0, bool inputActiveAtStart = true)
         {
             _operatorIndex = operatorIndex;
+            
+            if (!inputActiveAtStart)
+            {
+                SetGridInputEnabled(false);
+            }
         }
 
         #endregion INITIALIZATION
+
+
+        #region ENABLE
+
+        public virtual void SetGridInputEnabled(bool isEnabled)
+        {
+            _inputEnabled = isEnabled;
+        }
+
+        #endregion ENABLE
         
 
         #region INPUT

@@ -36,9 +36,9 @@ namespace GG.Grid
             _overlay = GetComponentInParent<Canvas>();
         }
 
-        public override void Init(int operatorIndex = 0)
+        public override void Init(int operatorIndex = 0, bool inputActiveAtStart = true)
         {
-            base.Init(operatorIndex);
+            base.Init(operatorIndex, inputActiveAtStart);
 
             _pointer = Modules.Get<ModuleInput>().GetPointerForOperator(operatorIndex);
             _camera = (Modules.Get<ModuleOperators>().GetOperator(operatorIndex) as OperatorPlayer).GameCamera.UICamera;
