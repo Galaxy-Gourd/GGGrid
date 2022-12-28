@@ -15,6 +15,7 @@ namespace GG.Grid
         public int GridHeight => _height;
         public int CellCount => _width * _height;
         public int GetFlattenedIndexForCoords(int x, int y) => x + (_width * y);
+        public int GetFlattenedIndexForCoords(Vector2Int coords) => coords.x + (_width * coords.y);
         public Vector2Int GetCoordsForFlattenedIndex(int index) => new (index % _width, index / _width);
 
         // Private

@@ -46,13 +46,10 @@ namespace GG.Grid
 
         private void SpawnGridForOperator(int opIndex)
         {
-            // Create grid
-            Grid grid = new Grid(_config.GridWidth, _config.GridHeight);
-
             // Instantiate scalable grid component for every operator
             Canvas uiCanvas = Modules.Get<ModuleCamera>().GetPlayerUICanvas(opIndex);
             _grid = Instantiate(_prefabScalableGrid, uiCanvas.transform).GetComponent<UIScalableGrid>();
-            _grid.Init(grid, _config);
+            _grid.InitGridView(_config);
             _grid.GetComponent<GridInput>().Init(opIndex);
             
             _cellColor = _grid.CellAtIndex(0).GetComponent<Image>().color;

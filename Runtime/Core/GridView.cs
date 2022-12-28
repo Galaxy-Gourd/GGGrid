@@ -45,10 +45,11 @@ namespace GG.Grid
         
         #region INITIALIZATION
 
-        public virtual void Init(Grid grid, TConfig config, int operatorIndex = 0)
+        public virtual void InitGridView(TConfig config, int operatorIndex = 0)
         {
-            _grid = grid;
             _config = config;
+            _grid = new Grid(_config.GridWidth, _config.GridHeight);
+            
             _config.OnValidated += OnConfigValidated;
             _cellViews = new TCell[_grid.GridWidth * _grid.GridHeight];
             _operatorIndex = operatorIndex;

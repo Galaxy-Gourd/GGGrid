@@ -16,12 +16,14 @@ namespace GG.Grid
 
         public TickGroup TickGroup => TickGroup.InputTransmission;
         public DataInputValuesGrid InputValues => _inputValues;
+        public UnityEngine.Camera UICamera => _camera;
 
         private UISimulatedPointer _pointer;
         private UIScalableGrid _grid;
         private Canvas _overlay;
         private UnityEngine.Camera _camera;
         private DataInputValuesGrid _inputValues;
+        private bool _active;
 
         #endregion VARIABLES
         
@@ -45,14 +47,21 @@ namespace GG.Grid
 
         private void OnEnable()
         {
+            _active = true;
             TickRouter.Register(this);
             RegisterComponent(_grid);
         }
 
         private void OnDisable()
         {
+            _active = false;
             TickRouter.Unregister(this);
             RemoveComponent(_grid);
+        }
+
+        public void SetActiveManual(bool b)
+        {
+            _active = b;
         }
 
         #endregion INITIALIZATION
@@ -62,6 +71,9 @@ namespace GG.Grid
 
         void ITickable.Tick(float delta)
         {
+            if (!_active)
+                return;
+            
             OnGridInput(_inputValues);
             
             _inputValues.DidEnterThisFrame = false;
@@ -77,18 +89,23 @@ namespace GG.Grid
 
         #region POINTER
 
-        public Tuple<UIScalableGridCell, float> GetCellClosestToPosition(Vector2 targetPosition, bool useRelativePosition = true)
+        public Tuple<UIScalableGridCell, float> GetCellClosestToPosition(Vector3 targetPosition)//, bool useRelativePosition = true)
         {
+            // We use screen space to measure distance
+            Vector3 sourceSS = UICamera.WorldToScreenPoint(targetPosition);
+
             float closestDist = float.MaxValue;
             UIScalableGridCell closestCell = _grid.CellAtIndex(0);
             foreach (UIScalableGridCell cell in _grid.CellViews)
             {
-                Vector2 adjustedTarget = useRelativePosition ?
-                    RectTransformUtility.CalculateRelativeRectTransformBounds(_overlay.transform, cell.transform).center :
-                    cell.CellRect.position;
-                
-                float distance = Vector2.Distance(adjustedTarget, targetPosition);
-                if (distance < closestDist)// || distance < _grid.ActiveCellCheckDistanceMin)
+                //
+                // Vector2 adjustedTarget = useRelativePosition ?
+                //     RectTransformUtility.CalculateRelativeRectTransformBounds(_overlay.transform, cell.transform).center :
+                //     cell.CellRect.position;
+
+                Vector3 targetSS = UICamera.WorldToScreenPoint(cell.CellRect.position);
+                float distance = Vector3.Distance(sourceSS, targetSS);
+                if (distance < closestDist)
                 {
                     closestDist = distance;
                     closestCell = cell;
@@ -101,9 +118,22 @@ namespace GG.Grid
         /// <summary>
         /// Returns the raw position of the pointer (including off-grid position)
         /// </summary>
-        public Vector2 GetPointerPositionRaw()
+        public Vector3 GetPointerPositionRaw()
         {
             return _pointer.Position;
+        }
+
+        public Vector3 GetPointerPositionScreen()
+        {
+            return _pointer.GetPointerPosForScreen();
+        }
+
+        /// <summary>
+        /// Manually refreshes the active pointer position through the input struct
+        /// </summary>
+        public void RefreshPointerPositionManual()
+        {
+            ProliferateGridPointerPosition(GetPointerPositionRaw());
         }
 
         #endregion POINTER
@@ -143,11 +173,7 @@ namespace GG.Grid
             if (!_camera)
                 return;
             
-            // Find the closest cell to the pointer
-            _inputValues.GridPointerPosition = GetAdjustedPP(eventData.position);
-            Tuple<UIScalableGridCell, float> closestCell = 
-                GetCellClosestToPosition(_inputValues.GridPointerPosition, false);
-            _inputValues.ActiveCell = closestCell.Item1;
+            ProliferateGridPointerPosition(GetAdjustedPP(eventData.position));
         }
 
         #endregion EVENTS
@@ -155,7 +181,15 @@ namespace GG.Grid
 
         #region UTILITY
 
-        private Vector2 GetAdjustedPP(Vector2 position)
+        private void ProliferateGridPointerPosition(Vector3 position)
+        {
+            _inputValues.GridPointerPosition = position;
+            Tuple<UIScalableGridCell, float> closestCell = 
+                GetCellClosestToPosition(_inputValues.GridPointerPosition);
+            _inputValues.ActiveCell = closestCell.Item1;
+        }
+
+        private Vector3 GetAdjustedPP(Vector2 position)
         {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(
                 _overlay.GetComponent<RectTransform>(), 
