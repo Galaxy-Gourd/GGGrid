@@ -45,7 +45,7 @@ namespace GG.Grid
         
         #region INITIALIZATION
 
-        public virtual void InitGridView(TConfig config, int operatorIndex = 0)
+        public virtual void Init(TConfig config, int operatorIndex = 0)
         {
             _config = config;
             _grid = new Grid(_config.GridWidth, _config.GridHeight);

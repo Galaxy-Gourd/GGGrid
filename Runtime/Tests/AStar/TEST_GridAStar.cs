@@ -43,7 +43,7 @@ namespace GG.Grid
             // Instantiate scalable grid component for every operator
             Canvas uiCanvas = Modules.Get<ModuleCamera>().GetPlayerUICanvas(opIndex);
             _grid = Instantiate(_prefabScalableGrid, uiCanvas.transform).GetComponent<UIScalableGrid>();
-            _grid.Init(grid, _config);
+            _grid.Init(_config);
             _grid.GetComponent<GridInput>().Init(opIndex);
             _colorDefault = _grid.CellViews[0].GetComponent<Image>().color;
             

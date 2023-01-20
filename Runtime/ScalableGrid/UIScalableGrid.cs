@@ -41,9 +41,9 @@ namespace GG.Grid
             TickRouter.Unregister(this);
         }
 
-        public override void InitGridView(DataConfigUIScalableGrid config, int operatorIndex = 0)
+        public override void Init(DataConfigUIScalableGrid config, int operatorIndex = 0)
         {
-            base.InitGridView(config, operatorIndex);
+            base.Init(config, operatorIndex);
 
             _rect = GetComponent<RectTransform>();
             _updateFlag = true;
