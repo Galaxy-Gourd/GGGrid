@@ -186,6 +186,23 @@ namespace GG.Grid
             return flattened;
         }
 
+        public List<int> GetGridCellsInBounds(Vector2Int xBounds, Vector2Int yBounds)
+        {
+            List<int> cellsInBounds = new List<int>();
+            for (int x = xBounds.x; x < xBounds.y; x++)
+            {
+                for(int y = yBounds.x; y < yBounds.y; y++)
+                {
+                    if (CoordsAreWithinGrid(new Vector2Int(x, y)))
+                    {
+                        cellsInBounds.Add(GetFlattenedIndexForCoords(x, y)); 
+                    }
+                }
+            }
+
+            return cellsInBounds;
+        }
+
         /// <summary>
         /// Returns true if the given coordinates are contained within the grid
         /// </summary>

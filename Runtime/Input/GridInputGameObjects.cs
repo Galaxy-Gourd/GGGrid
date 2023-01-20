@@ -34,7 +34,7 @@ namespace GG.Grid
         {
             base.Init(operatorIndex, inputActiveAtStart);
 
-            Operator = Modules.Get<ModuleOperators>().GetOperator(operatorIndex) as OperatorPlayer;
+            Operator = Modules.Get<ModuleOperators>()?.GetOperator(operatorIndex) as OperatorPlayer;
             _raycaster = GetComponent<GridInputRaycaster>();
             _raycaster.Init(this);
         }
