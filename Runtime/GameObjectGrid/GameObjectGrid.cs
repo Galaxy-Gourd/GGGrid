@@ -32,9 +32,9 @@ namespace GG.Grid
         
         #region INITIALIZATION
 
-        public override void Init(Grid grid, TConfig config, int operatorIndex = 0)
+        public override void InitGridView(TConfig config, int operatorIndex = 0)
         {
-            base.Init(grid, config, operatorIndex);
+            base.InitGridView(config, operatorIndex);
             
             Center = new Vector3(_config.GridCellSize * _grid.GridWidth, 0, _config.GridCellSize * _grid.GridHeight) / 2;
             _cellDiagonal = Mathf.Sqrt((_config.GridCellSize * _config.GridCellSize) + (_config.GridCellSize * _config.GridCellSize)) / 2f;

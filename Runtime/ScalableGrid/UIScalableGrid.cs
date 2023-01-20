@@ -12,15 +12,16 @@ namespace GG.Grid
         #region VARIABLES
 
         [Header("References")]
-        [SerializeField] private RectTransform _contentRect;
+        [SerializeField] protected RectTransform _contentRect;
         [SerializeField] protected RectTransform _inputRect;
         [SerializeField] private Transform _cellParent;
         
         public TickGroup TickGroup => TickGroup.UIUpdate;
-
         public float CellSize { get; private set; }
         public float CellSpacing => _config.CellSpacing;
+        public Action OnCellsUpdated;
 
+        protected RectTransform _rect;
         private bool _updateFlag;
 
         #endregion VARIABLES
@@ -31,6 +32,8 @@ namespace GG.Grid
         protected virtual void OnEnable()
         {
             TickRouter.Register(this);
+            if (_rect && _config)
+                _updateFlag = true;
         }
 
         protected virtual void OnDisable()
@@ -38,11 +41,12 @@ namespace GG.Grid
             TickRouter.Unregister(this);
         }
 
-        public override void Init(Grid grid, DataConfigUIScalableGrid config, int operatorIndex = 0)
+        public override void InitGridView(DataConfigUIScalableGrid config, int operatorIndex = 0)
         {
-            base.Init(grid, config, operatorIndex);
+            base.InitGridView(config, operatorIndex);
 
-            UpdateCellSizes();
+            _rect = GetComponent<RectTransform>();
+            _updateFlag = true;
         }
 
         protected override UIScalableGridCell InstantiateCell(int xCoord, int yCoord)
@@ -74,6 +78,9 @@ namespace GG.Grid
 
         private void UpdateCellSizes()
         {
+            if (_grid == null)
+                return;
+            
             Vector2 anchor = _contentRect.rect.center;
             float availableWidth = _contentRect.rect.width - ((_grid.GridWidth + 1) * _config.CellSpacing) - (_config.BorderSpacing * 2);
             float maxCellWidth = availableWidth / _grid.GridWidth;
@@ -102,6 +109,24 @@ namespace GG.Grid
                               - (CellSize / 2)) + (cellContainerHeight / 2);
                 cell.CellRect.anchoredPosition = new Vector2 (xPos, yPos);
             }
+            
+            OnCellsUpdated?.Invoke();
+        }
+
+        /// <summary>
+        /// We can manually set the grid size to match for a specific cell size, ie if trying to visually match different grids
+        /// </summary>
+        public void SetGridSizeManually(float targetCellSize)
+        {
+            float targetWidth = 
+                (_grid.GridWidth * targetCellSize) + ((_grid.GridWidth + 1) * _config.CellSpacing) + (_config.BorderSpacing * 2);
+            float targetHeight = 
+                (_grid.GridHeight * targetCellSize) + ((_grid.GridHeight + 1) * _config.CellSpacing) + (_config.BorderSpacing * 2);
+            
+            _rect.sizeDelta = new Vector2(targetWidth, targetHeight);
+            CellSize = targetCellSize;
+            
+            OnCellsUpdated?.Invoke();
         }
 
         #endregion RESIZE

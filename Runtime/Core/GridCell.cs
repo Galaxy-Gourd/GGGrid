@@ -14,6 +14,7 @@ namespace GG.Grid
         public int XCoord { get; private set; }
         public int YCoord { get; private set; }
         public int Index { get; private set; }
+        public Vector2Int Coords => new Vector2Int(XCoord, YCoord);
         public GridCellPointerState PointerState => _pointerState;
         public List<IGridCellOccupant> Occupants { get; protected set; }
 
