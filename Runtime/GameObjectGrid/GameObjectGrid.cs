@@ -32,9 +32,9 @@ namespace GG.Grid
         
         #region INITIALIZATION
 
-        public override void InitGridView(TConfig config, int operatorIndex = 0)
+        public override void Init(TConfig config, int operatorIndex = 0)
         {
-            base.InitGridView(config, operatorIndex);
+            base.Init(config, operatorIndex);
             
             Center = new Vector3(_config.GridCellSize * _grid.GridWidth, 0, _config.GridCellSize * _grid.GridHeight) / 2;
             _cellDiagonal = Mathf.Sqrt((_config.GridCellSize * _config.GridCellSize) + (_config.GridCellSize * _config.GridCellSize)) / 2f;
@@ -70,20 +70,22 @@ namespace GG.Grid
         /// <summary>
         /// Returns the smallest group of cells that fully encapsulate the given point with the given radius
         /// </summary>
+        readonly List<TGridCell> _cacheCells = new List<TGridCell>();
         public List<TGridCell> GetEncapsulatingCells(Vector2 point, float radius)
         {
-            List<TGridCell> cells = new List<TGridCell>();
+            _cacheCells.Clear();
             foreach (TGridCell cell in _cellViews)
             {
-                Vector2 ps = new Vector2(cell.Transform.position.x, cell.Transform.position.z);
+                Vector3 p = cell.Transform.position;
+                Vector2 ps = new Vector2(p.x, p.z);
                 float distance = Vector2.Distance(ps, point);
                 if (distance < _cellDiagonal + radius)
                 {
-                    cells.Add(cell);
+                    _cacheCells.Add(cell);
                 }
             }
 
-            return cells;
+            return _cacheCells;
         }
 
         #endregion UTILITY

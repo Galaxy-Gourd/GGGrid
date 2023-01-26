@@ -26,6 +26,10 @@ namespace GG.Grid
         internal void Init(GridInputGameObjects input)
         {
             _input = input;
+            
+            if (!_input.Operator)
+                return;
+            
             if (_input.Operator.Pointer)
             {
                 _input.Operator.Pointer.RegisterReceiver(this);
@@ -40,6 +44,10 @@ namespace GG.Grid
         private void OnDisable()
         {
             TickRouter.Unregister(this);
+            
+            if (!_input.Operator)
+                return;
+            
             if (_input.Operator.Pointer)
             {
                 _input.Operator.Pointer.UnregisterReceiver(this);
@@ -87,8 +95,15 @@ namespace GG.Grid
 
         private void RaycastToGrid()
         {
-            if (!_input.Operator.Pointer)
+            if (!_input.Operator || !_input.Operator.Pointer)
                 return;
+
+            //deselect and cancel if hovering over UI
+            if (_input.Operator.Pointer.HoveredObjects.Count > 0)
+            {
+                _inputValues.ActiveCell = null;
+                return;
+            }
             
             // Raycast to grid
             Vector2 inputPos = _input.Operator.Pointer.GetPointerPosForViewportRaycast();
