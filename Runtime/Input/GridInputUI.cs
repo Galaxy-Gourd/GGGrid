@@ -118,7 +118,7 @@ namespace GG.Grid
         /// <summary>
         /// Returns the raw position of the pointer (including off-grid position)
         /// </summary>
-        public Vector3 GetPointerPositionRaw()
+        private Vector3 GetPointerPositionRaw()
         {
             return _pointer.Position;
         }
